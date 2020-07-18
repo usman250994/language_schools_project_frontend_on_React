@@ -6,7 +6,6 @@ import * as Yup from 'yup';
 
 import { LoginRequest, login } from '../../services/api-services/auth';
 import { InputField } from '../../shared/components/formik/InputField';
-import { SessionContext } from '../../shared/contexts/session';
 import { ToastContext} from '../../shared/contexts/toast';
 
 export type LoginFormState = {

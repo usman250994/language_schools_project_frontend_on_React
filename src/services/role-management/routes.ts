@@ -4,7 +4,7 @@ import * as FAS from '@fortawesome/free-solid-svg-icons';
 import WIP from '../../shared/components/WIP';
 import { Session } from '../../shared/contexts/session';
 
-import { UserRole, ClientRole } from './roles';
+import { UserRole } from './roles';
 
 export type Route = {
   component: (props?: any) => JSX.Element;
@@ -13,7 +13,6 @@ export type Route = {
   sidebar: boolean;
   icon?: IconDefinition;
   userRoles: UserRole[];
-  clientRoles?: ClientRole[];
 }
 
 const routes: Route[] = [{
@@ -26,16 +25,12 @@ const routes: Route[] = [{
   userRoles: [UserRole.ADMIN],
 }];
 
-export function getRoutes({ user, client }: Session): Route[] {
+export function getRoutes({ user }: Session): Route[] {
   if (!user) {
     return [];
   }
 
-  let filteredRoutes = routes.filter((route) => route.userRoles.includes(user.role));
-
-  if (client && user.role === UserRole.CLIENT) {
-    filteredRoutes = filteredRoutes.filter((route) => route.clientRoles && client.role && route.clientRoles.includes(client.role));
-  }
+  const filteredRoutes = routes.filter((route) => route.userRoles.includes(user.role));
 
   return filteredRoutes;
 }

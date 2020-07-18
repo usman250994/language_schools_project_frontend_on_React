@@ -1,21 +1,13 @@
 export enum UserRole {
   ADMIN = 'ADMIN',
-  CLIENT = 'CLIENT',
+  TEACHER = 'TEACHER',
+  STUDENT = 'STUDENT',
+  PARENT = 'PARENT',
 }
 
 export const UserRoleText: { [x in UserRole]: string } = {
-  ADMIN: 'Super Admin',
-  CLIENT: 'Client User',
-};
-
-export enum ClientRole {
-  ADMIN = 'ADMIN',
-  ANALYST = 'ANALYST',
-  VETTER = 'VETTER',
-}
-
-export const ClientRoleText: { [x in ClientRole]: string } = {
-  ADMIN: 'Administrator',
-  ANALYST: 'Analyst',
-  VETTER: 'Vetter',
+  ADMIN: 'ADMIN',
+  TEACHER: 'TEACHER',
+  STUDENT: 'STUDENT',
+  PARENT: 'PARENT',
 };

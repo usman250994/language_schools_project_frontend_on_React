@@ -1,4 +1,4 @@
-import { UserRole, ClientRole } from '../role-management/roles';
+import { UserRole } from '../role-management/roles';
 
 import httpRequest from './config/HttpRequest';
 import { ListResponse } from './interfaces';
@@ -18,15 +18,6 @@ export type SuperUser = {
   firstName: string;
   lastName: string;
   role: UserRole;
-  invitationAccepted: boolean;
-}
-
-export type ClientUser = {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-  clientRole: ClientRole;
   invitationAccepted: boolean;
 }
 
@@ -93,51 +84,5 @@ export function deleteSuperUser(userId: string): Promise<void> {
   return httpRequest.request({
     url: `/users/${userId}`,
     method: 'delete',
-  });
-}
-
-export type CreateClientUserRequest = {
-  email: string;
-  clientRole: ClientRole;
-}
-
-export function createClientUser(data: CreateClientUserRequest, clientId: string): Promise<ClientUser> {
-  return httpRequest.request({
-    url: `/clients/${clientId}/users`,
-    method: 'post',
-    data: data,
-  });
-}
-
-export function resendClientUserInvitation(clientId: string, userId: string): Promise<void> {
-  return httpRequest.request({
-    url: `/clients/${clientId}/users/${userId}/resend-invitation`,
-    method: 'post',
-  });
-}
-
-export type EditClientUserRequest = {
-  clientRole: ClientRole;
-}
-
-export function editClientUser(data: EditClientUserRequest, clientId: string, userId: string): Promise<ClientUser> {
-  return httpRequest.request({
-    url: `/clients/${clientId}/users/${userId}`,
-    method: 'put',
-    data: data,
-  });
-}
-
-export function deleteClientUser(clientId: string, userId: string): Promise<void> {
-  return httpRequest.request({
-    url: `/clients/${clientId}/users/${userId}`,
-    method: 'delete',
-  });
-}
-
-export function listClientUsers(clientId: string, offset = 0, limit = 10): Promise<ListResponse<ClientUser>> {
-  return httpRequest.request({
-    url: `/clients/${clientId}/users?offset=${offset}&limit=${limit}`,
-    method: 'get',
   });
 }

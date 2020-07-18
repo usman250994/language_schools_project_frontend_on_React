@@ -5,14 +5,14 @@ import { Button, Form, FormControl, InputGroup, Navbar } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 
 import useOnClickOutside from '../../../hooks/on-click-outside';
-import { UserRole, UserRoleText, ClientRoleText } from '../../../services/role-management/roles';
+import { UserRole } from '../../../services/role-management/roles';
 import { SessionContext } from '../../contexts/session';
 
 import './header.scss';
 
 function Header(): JSX.Element {
   const [state, dispatchSession] = useContext(SessionContext);
-  const { user, profile, client } = state;
+  const { user, profile } = state;
   if (!user || !profile) {
     throw new Error('User expected');
   }
@@ -28,11 +28,6 @@ function Header(): JSX.Element {
     setShowDropdown(false);
   };
 
-  const switchClient = (): void => {
-    history.push('/clients');
-    setShowDropdown(false);
-  };
-
   const logout = (): void => {
     dispatchSession({ type: 'LOGOUT' });
     setShowDropdown(false);
@@ -42,17 +37,7 @@ function Header(): JSX.Element {
 
   const userName = `${profile.firstName} ${profile.lastName}`;
 
-  let clientName = '';
-  if (user.role === UserRole.CLIENT && client && client.role) {
-    clientName = client.name;
-  }
-
-  let role = '';
-  if (user.role === UserRole.ADMIN) {
-    role = UserRoleText[user.role];
-  } else if (user.role === UserRole.CLIENT && client && client.role) {
-    role = ClientRoleText[client.role];
-  }
+  const role = '';
 
   return (
     <Navbar expand="lg">
@@ -69,7 +54,6 @@ function Header(): JSX.Element {
           <div className="dropdown-btn" onClick={(): void => setShowDropdown(!showDropdown)}>
             <div className="user-name">{userName}</div>
             {user.role === UserRole.ADMIN && <div className="company">{role}</div>}
-            {user.role === UserRole.CLIENT && <div className="company">{clientName} - {role}</div>}
           </div>
           {showDropdown && (
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -77,11 +61,6 @@ function Header(): JSX.Element {
                 <FontAwesomeIcon icon={FAS.faCogs} />
                 <span>Settings</span>
               </button>
-              { user.role === UserRole.CLIENT && <button className="dropdown-item" onClick={switchClient}>
-                <FontAwesomeIcon icon={FAS.faUsers} />
-                <span>Switch User Group</span>
-              </button>
-              }
               <button className="dropdown-item" onClick={logout}>
                 <FontAwesomeIcon icon={FAS.faSignOutAlt} />
                 <span>Logout</span>
