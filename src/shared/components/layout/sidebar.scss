@@ -1,0 +1,105 @@
+.sidebar {
+  padding: 0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  /* Behind the navbar */
+  /* Height of navbar */
+  // background-color: var(--theme-color-blue);
+
+  background: var(--theme-color-blue);
+  background: linear-gradient(0deg, var(--theme-color-blue) 0%, rgba(140, 120, 218, 1) 100%);
+
+  box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+  color: var(--theme-color-text-dark);
+  height: auto;
+  min-height: 100vh;
+
+  .company-logo {
+    text-align: center;
+    padding: 18% 18% 0% 10%;
+    font-size: 20px;
+  }
+
+  .nav {
+    button {
+      background: none;
+      border: none;
+      text-align: start;
+      padding: 0;
+
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .icon {
+      margin-right: 1rem;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: var(--theme-color-text-light);
+
+      &.active {
+        color: var(--theme-color-text-dark);
+        text-decoration: underline;
+      }
+
+      &:hover {
+        color: var(--theme-color-text-dark);
+      }
+
+      &:hover .feather,
+      &.active .feather {
+        color: inherit;
+      }
+
+      .feather {
+        margin-right: 4px;
+        color: #999;
+      }
+
+      .icon {
+        width: 20px;
+        margin-right: 8px;
+      }
+    }
+
+    .collapse,
+    .collapsing {
+      li {
+        color: #dcdbe0;
+
+        ul:hover {
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .role-head {
+    text-align: center;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 1rem;
+    padding: 10% 18% 0% 10%;
+    word-break: break-word;
+  }
+
+}
+
+
+@supports ((position: -webkit-sticky) or (position: sticky)) {
+  .sidebar-sticky {
+    position: -webkit-sticky;
+    position: sticky;
+  }
+}
+
+.sidebar-heading {
+  font-size: .75rem;
+  text-transform: uppercase;
+}

@@ -1,0 +1,19 @@
+
+
+.button-icon {
+  margin: 0 0.5rem 0 0;
+}
+
+.anchor-button {
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 10px;
+  border-radius: 5px;
+  svg {
+    margin-right: 0.5rem;
+  }
+  &:hover {
+    color: black;
+    background-color: #d2d2d2;
+  }
+}

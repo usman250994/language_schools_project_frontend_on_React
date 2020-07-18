@@ -1,0 +1,32 @@
+version: 2
+
+jobs:
+  lint:
+    docker:
+      - image: circleci/node:12
+    steps:
+      - checkout
+      - restore_cache:
+          name: Restore NPM Package Cache
+          keys:
+            - npm-packages-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Node.js packages
+          command: npm ci
+      - save_cache:
+          name: Save NPM Package Cache
+          key: npm-packages-{{ checksum "package-lock.json" }}
+          paths:
+            - ~/.npm
+      - run:
+          name: Run ESLint
+          command: npm run lint
+      - run:
+          name: Run Build
+          command: CI=false npm run build
+
+workflows:
+  version: 2
+  ci:
+    jobs:
+      - lint

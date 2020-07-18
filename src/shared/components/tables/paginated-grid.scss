@@ -1,0 +1,13 @@
+.paginated-grid-layout {
+  .shadow-box {
+    .with-dropdown {
+      position: relative;
+  
+      .dropdown {
+        display: inline-block;
+        position: absolute;
+        right: 0;
+      }
+    }
+  }
+}

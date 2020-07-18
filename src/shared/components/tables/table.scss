@@ -1,0 +1,39 @@
+.table-responsive {
+  min-height: 10vh;
+
+  thead {
+    th {
+      border: none;
+    }
+  }
+  tbody {
+    td {
+      vertical-align: middle;
+      border-top: 1px solid #f3f5f7;
+    }
+  }
+}
+
+.editable-table {
+  .table {
+    tbody {
+      tr {
+        td {
+          word-break: break-word;
+          .form-group {
+            margin: 0;
+          }
+          height: 4rem;
+          width: 8rem;
+          input[type="number"] {
+            width: 5rem;
+          }
+        }
+        td:last-child {
+          text-align: center;
+          min-width: 12rem;
+        }
+      }
+    }
+  }
+}

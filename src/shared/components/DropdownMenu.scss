@@ -1,0 +1,13 @@
+.dropdown {
+  cursor: pointer;
+
+  .dropdown-menu {
+    display: block;
+    position: absolute;
+    visibility: visible;
+    top: 50%;
+    left: auto;
+    opacity: 1;
+    right: 0px;
+  }
+}
