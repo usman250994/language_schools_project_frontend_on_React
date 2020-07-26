@@ -14,7 +14,7 @@ function PublicSection(props: React.PropsWithChildren<{}>): JSX.Element | null {
   return (
     <div className="floating-container">
       <div className="box">
-        <Logo />
+        {/* <Logo /> */}
         <hr />
         {props.children}
       </div>

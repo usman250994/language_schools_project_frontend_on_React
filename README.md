@@ -1,14 +1,14 @@
-# DTech Analysis Web
+# SPRACHCENTER Web
 Simple React, nothing fancy.
 
 - React (Using Create React App)
-- Docker
+- Docker for build only
 
 ## Setup
 
 ### Prerequisites
-- You need [API](https://github.com/10pearls/dtech-api) service up and running
-- You need [Target Data Source](https://github.com/10pearls/dtech-target-data-source) service up and running
+- You need [API](https://github.com/usman250994/sprachcenter_BE) service up and running
+- You need [Target Data Source](https://github.com/usman250994/sprachcenter_FE) service up and running
 
 ### Docker
 - Clone the repository
