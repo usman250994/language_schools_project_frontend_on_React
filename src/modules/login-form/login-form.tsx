@@ -42,6 +42,8 @@ function LoginForm(): JSX.Element {
 
   return (
     <React.Fragment>
+      {/* todo: will replace image tag from here */}
+      <img src="../../../logo512.png"width="200" height="200"/>
       <h4>Login</h4>
       {location.state && location.state.message && <Alert variant="info">{location.state.message}</Alert>}
       <Formik
