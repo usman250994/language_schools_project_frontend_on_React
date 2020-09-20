@@ -1,4 +1,5 @@
 export enum UserRole {
+  SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
   TEACHER = 'TEACHER',
   STUDENT = 'STUDENT',
@@ -6,8 +7,9 @@ export enum UserRole {
 }
 
 export const UserRoleText: { [x in UserRole]: string } = {
-  ADMIN: 'ADMIN',
-  TEACHER: 'TEACHER',
-  STUDENT: 'STUDENT',
-  PARENT: 'PARENT',
+  SUPER_ADMIN: 'Super Admin',
+  ADMIN: 'Admin',
+  TEACHER: 'Teacher',
+  STUDENT: 'Student',
+  PARENT: 'Parent',
 };

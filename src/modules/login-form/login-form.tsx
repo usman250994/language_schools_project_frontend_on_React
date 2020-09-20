@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 import { LoginRequest, login } from '../../services/api-services/auth';
 import { InputField } from '../../shared/components/formik/InputField';
+import { SessionContext } from '../../shared/contexts/session';
 import { ToastContext} from '../../shared/contexts/toast';
 
 export type LoginFormState = {
@@ -17,6 +18,7 @@ function LoginForm(): JSX.Element {
   const setToast = useContext(ToastContext);
   const history = useHistory();
   const location = useLocation<LoginFormState>();
+  const [, dispatchSession] = useContext(SessionContext);
 
   const initialValues = {
     email: '',
@@ -29,7 +31,10 @@ function LoginForm(): JSX.Element {
 
   const onSubmit = async (credentials: LoginRequest): Promise<void> => {
     try {
-      await login(credentials);
+      const user = await login(credentials);
+
+      dispatchSession({ type: 'SET_USER', user });
+      history.push('/');
     } catch (err) {
       setToast({ type: 'error', message: err.message });
     }

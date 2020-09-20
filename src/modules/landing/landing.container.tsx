@@ -17,8 +17,10 @@ function LandingContainer(): JSX.Element | null {
     setToast({ type: 'error', message: 'Session expired. Please login again.' });
   }
 
-  if (user.role === UserRole.ADMIN) {
-    return <Redirect to="/dashboard" />;
+  if ([UserRole.ADMIN, UserRole.PARENT, UserRole.TEACHER].includes(user.role)) {
+    return <Redirect to="/assignments" />;
+  } else if (UserRole.SUPER_ADMIN === user.role) {
+    return <Redirect to="/create-admin" />;
   }
 
   return null;

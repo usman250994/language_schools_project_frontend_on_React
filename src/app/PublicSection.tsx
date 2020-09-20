@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 
 import './PublicSection.scss';
 
-import { Logo } from '../shared/components/Logo';
 import { SessionContext } from '../shared/contexts/session';
 
 function PublicSection(props: React.PropsWithChildren<{}>): JSX.Element | null {
@@ -14,7 +13,7 @@ function PublicSection(props: React.PropsWithChildren<{}>): JSX.Element | null {
   return (
     <div className="floating-container">
       <div className="box">
-        <Logo />
+        <h1>Sprach Center</h1>
         <hr />
         {props.children}
       </div>

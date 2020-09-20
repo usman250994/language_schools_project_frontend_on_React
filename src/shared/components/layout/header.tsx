@@ -1,19 +1,18 @@
 import * as FAS from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useContext } from 'react';
-import { Button, Form, FormControl, InputGroup, Navbar } from 'react-bootstrap';
+import { Navbar } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 
 import useOnClickOutside from '../../../hooks/on-click-outside';
-import { UserRole } from '../../../services/role-management/roles';
 import { SessionContext } from '../../contexts/session';
 
 import './header.scss';
 
 function Header(): JSX.Element {
   const [state, dispatchSession] = useContext(SessionContext);
-  const { user, profile } = state;
-  if (!user || !profile) {
+  const { user } = state;
+  if (!user) {
     throw new Error('User expected');
   }
 
@@ -35,32 +34,24 @@ function Header(): JSX.Element {
     history.push('/');
   };
 
-  const userName = `${profile.firstName} ${profile.lastName}`;
+  // const userName = `${profile.firstName} ${profile.lastName}`;
 
-  const role = '';
+  // const role = '';
 
   return (
     <Navbar expand="lg">
-      <Form inline>
-        <InputGroup className="border">
-          <FormControl aria-label="Default" aria-describedby="inputGroup-sizing-default" placeholder="Search usernames" />
-          <InputGroup.Prepend>
-            <Button>Search</Button>
-          </InputGroup.Prepend>
-        </InputGroup>
-      </Form>
       <Navbar.Collapse className="justify-content-end">
         <div className="dropdown" ref={menuRef}>
           <div className="dropdown-btn" onClick={(): void => setShowDropdown(!showDropdown)}>
-            <div className="user-name">{userName}</div>
-            {user.role === UserRole.ADMIN && <div className="company">{role}</div>}
+            <div className="user-name">Admin</div>
+            {/* {user.role === UserRole.ADMIN && <div className="company">{role}</div>} */}
           </div>
           {showDropdown && (
             <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <button className="dropdown-item" onClick={settings}>
+              {/* <button className="dropdown-item" onClick={settings}>
                 <FontAwesomeIcon icon={FAS.faCogs} />
                 <span>Settings</span>
-              </button>
+              </button> */}
               <button className="dropdown-item" onClick={logout}>
                 <FontAwesomeIcon icon={FAS.faSignOutAlt} />
                 <span>Logout</span>

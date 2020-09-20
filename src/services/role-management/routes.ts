@@ -1,6 +1,11 @@
 import { IconDefinition } from '@fortawesome/fontawesome-svg-core';
 import * as FAS from '@fortawesome/free-solid-svg-icons';
 
+import CreateAdmin from '../../modules/admin/create-admin';
+import AssignmentsContainer from '../../modules/assignments/assignments.container';
+import ParentContainer from '../../modules/parent/parent.container';
+import SchoolContainer from '../../modules/school/school.container';
+import TeacherContainer from '../../modules/teacher/teacher.container';
 import WIP from '../../shared/components/WIP';
 import { Session } from '../../shared/contexts/session';
 
@@ -16,13 +21,47 @@ export type Route = {
 }
 
 const routes: Route[] = [{
-  // Super Admin only
-  component: WIP,
-  name: 'Dashboard',
-  url: '/dashboard',
+//   component: WIP,
+//   name: 'Dashboard',
+//   url: '/dashboard',
+//   sidebar: true,
+//   icon: FAS.faTachometerAlt,
+//   userRoles: [UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.PARENT, UserRole.TEACHER, UserRole.STUDENT],
+// }, {
+  component: CreateAdmin,
+  name: 'Create Admin',
+  url: '/create-admin',
+  sidebar: true,
+  icon: FAS.faTachometerAlt,
+  userRoles: [UserRole.SUPER_ADMIN],
+}, {
+  component: SchoolContainer,
+  name: 'School',
+  url: '/school',
   sidebar: true,
   icon: FAS.faTachometerAlt,
   userRoles: [UserRole.ADMIN],
+}, {
+  component: TeacherContainer,
+  name: 'Teacher',
+  url: '/teacher',
+  sidebar: true,
+  icon: FAS.faTachometerAlt,
+  userRoles: [UserRole.ADMIN],
+}, {
+  component: ParentContainer,
+  name: 'Parent',
+  url: '/parent',
+  sidebar: true,
+  icon: FAS.faTachometerAlt,
+  userRoles: [UserRole.ADMIN],
+}, {
+  component: AssignmentsContainer,
+  name: 'Assignments',
+  url: '/assignments',
+  sidebar: true,
+  icon: FAS.faTachometerAlt,
+  userRoles: [UserRole.ADMIN, UserRole.TEACHER],
 }];
 
 export function getRoutes({ user }: Session): Route[] {

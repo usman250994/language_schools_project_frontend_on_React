@@ -27,12 +27,12 @@ const ToastContextProvider = (props: PropsWithChildren<{}>): JSX.Element => {
       position: 'fixed',
       top: 0,
       right: 0,
-      zIndex: 2,
       minWidth: '250px',
       borderRadius: '10px',
       color: 'white',
       margin: '20px',
       fontSize: '15px',
+      zIndex: 1050,
     };
 
     return (

@@ -5,51 +5,31 @@ import { ListResponse } from './interfaces';
 
 export type User = {
   id: string;
-  email: string;
   firstName: string;
   lastName: string;
+  email: string;
   role: UserRole;
-  invitationAccepted: boolean;
 }
 
-export type SuperUser = {
-  id: string;
-  email: string;
+export type CreateUserRequest = {
   firstName: string;
   lastName: string;
-  role: UserRole;
-  invitationAccepted: boolean;
-}
-
-export function getUser(userId: string): Promise<User> {
-  return httpRequest.request({
-    url: `/users/${userId}`,
-    method: 'get',
-  });
-}
-
-export type CreateSuperUserRequest = {
   email: string;
+  password: string;
+  role: UserRole;
 }
 
-export function createSuperUser(data: CreateSuperUserRequest): Promise<SuperUser> {
+export function createUser(data: CreateUserRequest): Promise<User> {
   return httpRequest.request({
     url: '/users',
     method: 'post',
-    data: data,
+    data,
   });
 }
 
-export function resendUserInvitation(userId: string): Promise<void> {
+export function listUsers(role: UserRole, offset: number, limit: number): Promise<ListResponse<User>> {
   return httpRequest.request({
-    url: `/users/${userId}/resend-invitation`,
-    method: 'post',
-  });
-}
-
-export function listSuperUsers(offset = 0, limit = 10): Promise<ListResponse<SuperUser>> {
-  return httpRequest.request({
-    url: `/users?offset=${offset}&limit=${limit}`,
+    url: `/users/${role}?offset=${offset}&limit=${limit}`,
     method: 'get',
   });
 }
@@ -57,32 +37,35 @@ export function listSuperUsers(offset = 0, limit = 10): Promise<ListResponse<Sup
 export type EditUserRequest = {
   firstName: string;
   lastName: string;
+  email: string;
 }
 
-export function editUser(data: EditUserRequest): Promise<User> {
+export function editUser(id: string, data: EditUserRequest): Promise<ListResponse<User>> {
   return httpRequest.request({
-    url: '/users/me',
+    url: `/users/${id}`,
     method: 'put',
-    data: data,
+    data,
   });
 }
 
-export type ChangeUserPasswordRequest = {
-  currentPassword: string;
-  password: string;
-}
-
-export function changeUserPassword(data: ChangeUserPasswordRequest): Promise<User> {
+export function deleteUser(id: string): Promise<ListResponse<User>> {
   return httpRequest.request({
-    url: '/users/me/password',
-    method: 'put',
-    data: data,
-  });
-}
-
-export function deleteSuperUser(userId: string): Promise<void> {
-  return httpRequest.request({
-    url: `/users/${userId}`,
+    url: `/users/${id}`,
     method: 'delete',
+  });
+}
+
+export function addStudentToParent(parentId: string, data: CreateUserRequest): Promise<ListResponse<User>> {
+  return httpRequest.request({
+    url: `/students/parent/${parentId}`,
+    method: 'post',
+    data,
+  });
+}
+
+export function listParentStudent(parentId: string, offset: number, limit: number): Promise<ListResponse<User>> {
+  return httpRequest.request({
+    url: `/students/parent/${parentId}?offset=${offset}&limit=${limit}`,
+    method: 'get',
   });
 }

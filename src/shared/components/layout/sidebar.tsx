@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import { UserRole } from '../../../services/role-management/roles';
 import { getRoutes, Route } from '../../../services/role-management/routes';
 import { SessionContext } from '../../contexts/session';
-import { Logo } from '../Logo';
 
 import './sidebar.scss';
 
@@ -43,19 +42,44 @@ function Sidebar(): JSX.Element {
   }
 
   const routes = getRoutes({ user }).filter(route => route.sidebar);
-  const adminRoutes = routes.filter(route => route.userRoles.length === 1 && route.userRoles.includes(UserRole.ADMIN));
+  const adminRoutes = routes.filter(route => route.userRoles.includes(UserRole.ADMIN));
+  const superAdminRoutes = routes.filter(route => route.userRoles.includes(UserRole.SUPER_ADMIN));
+  const teacherRoutes = routes.filter(route => route.userRoles.includes(UserRole.TEACHER));
+  const parentRoutes = routes.filter(route => route.userRoles.includes(UserRole.PARENT));
+  const studentRoutes = routes.filter(route => route.userRoles.includes(UserRole.STUDENT));
 
   let adminNav = null;
+  let superAdminNav = null;
+  let teacherNav = null;
+  let parentNav = null;
+  let studentNav = null;
+
   if (user.role === UserRole.ADMIN) {
-    adminNav = <NavSection title="Administrator" routes={adminRoutes} />;
+    adminNav = <NavSection title="Admin" routes={adminRoutes} />;
+  }
+  if (user.role === UserRole.SUPER_ADMIN) {
+    superAdminNav = <NavSection title="Super Admin" routes={superAdminRoutes} />;
+  }
+  if (user.role === UserRole.TEACHER) {
+    teacherNav = <NavSection title="Teacher" routes={teacherRoutes} />;
+  }
+  if (user.role === UserRole.PARENT) {
+    parentNav = <NavSection title="Parent" routes={parentRoutes} />;
+  }
+  if (user.role === UserRole.STUDENT) {
+    studentNav = <NavSection title="Student" routes={studentRoutes} />;
   }
 
   return (
     <nav className="col-sm-2 d-sm-block sidebar">
-      <div className="company-logo"><Logo style={{ fill: 'white' }} /></div>
+      <div className="company-logo">Sprach Center</div>
       <div className="sidebar-sticky" />
       <Nav className="nav flex-column">
         {adminNav}
+        {superAdminNav}
+        {teacherNav}
+        {parentNav}
+        {studentNav}
       </Nav>
     </nav>
   );
