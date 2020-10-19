@@ -43,7 +43,7 @@ function Header(): JSX.Element {
       <Navbar.Collapse className="justify-content-end">
         <div className="dropdown" ref={menuRef}>
           <div className="dropdown-btn" onClick={(): void => setShowDropdown(!showDropdown)}>
-            <div className="user-name">Admin</div>
+            <div className="user-name">{user.role}</div>
             {/* {user.role === UserRole.ADMIN && <div className="company">{role}</div>} */}
           </div>
           {showDropdown && (

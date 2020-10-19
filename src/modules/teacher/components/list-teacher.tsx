@@ -146,7 +146,7 @@ function ListTeacher(props: ListTeacherProps): JSX.Element {
           title="Edit Teacher"
           text="Edit Teacher"
         />
-        <InfoButton onClick={(): void => {setSelectedUser(user);setViewClassModalToggle(!viewClassModalToggle);}} title="View Class" text="View Class" />
+        <InfoButton onClick={(): void => {setSelectedUser(user);setViewClassModalToggle(!viewClassModalToggle);}} title="Manage Classes" text="Manage Classes" />
       </React.Fragment>
     );
   };
@@ -199,6 +199,7 @@ function ListTeacher(props: ListTeacherProps): JSX.Element {
           show={viewClassModalToggle}
           teacherId={selectedUser ? selectedUser.id : ''}
           onClose={onClose}
+          title={'Manage Classes'}
         />}
 
       <DeleteModal

@@ -42,6 +42,7 @@ function Sidebar(): JSX.Element {
   }
 
   const routes = getRoutes({ user }).filter(route => route.sidebar);
+  // are following lines needed? are we not already filtering in `getroutes` function above
   const adminRoutes = routes.filter(route => route.userRoles.includes(UserRole.ADMIN));
   const superAdminRoutes = routes.filter(route => route.userRoles.includes(UserRole.SUPER_ADMIN));
   const teacherRoutes = routes.filter(route => route.userRoles.includes(UserRole.TEACHER));
@@ -55,24 +56,24 @@ function Sidebar(): JSX.Element {
   let studentNav = null;
 
   if (user.role === UserRole.ADMIN) {
-    adminNav = <NavSection title="Admin" routes={adminRoutes} />;
+    adminNav = <NavSection title="Admin Manages" routes={adminRoutes} />;
   }
   if (user.role === UserRole.SUPER_ADMIN) {
-    superAdminNav = <NavSection title="Super Admin" routes={superAdminRoutes} />;
+    superAdminNav = <NavSection title="Super Admin Manages" routes={superAdminRoutes} />;
   }
   if (user.role === UserRole.TEACHER) {
-    teacherNav = <NavSection title="Teacher" routes={teacherRoutes} />;
+    teacherNav = <NavSection title="Teacher Manages" routes={teacherRoutes} />;
   }
   if (user.role === UserRole.PARENT) {
-    parentNav = <NavSection title="Parent" routes={parentRoutes} />;
+    parentNav = <NavSection title="Parent Manages" routes={parentRoutes} />;
   }
   if (user.role === UserRole.STUDENT) {
-    studentNav = <NavSection title="Student" routes={studentRoutes} />;
+    studentNav = <NavSection title="Student Manages" routes={studentRoutes} />;
   }
 
   return (
     <nav className="col-sm-2 d-sm-block sidebar">
-      <div className="company-logo">Sprach Center</div>
+      <div className="company-logo">SprachCenter</div>
       <div className="sidebar-sticky" />
       <Nav className="nav flex-column">
         {adminNav}

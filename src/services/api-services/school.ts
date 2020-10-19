@@ -1,7 +1,7 @@
-import queryString from 'query-string';
+import queryString from "query-string";
 
-import httpRequest from './config/HttpRequest';
-import { ListResponse } from './interfaces';
+import httpRequest from "./config/HttpRequest";
+import { ListResponse } from "./interfaces";
 
 export type School = {
   id: string;
@@ -10,34 +10,41 @@ export type School = {
   address: string;
   phone: string;
   classrooms: Classroom[];
-}
+};
 
 export type CreateSchoolRequest = {
   email: string;
   name: string;
   address: string;
   phone: string;
-}
+};
 
 export function createSchool(data: CreateSchoolRequest): Promise<School> {
   return httpRequest.request({
-    url: '/schools',
-    method: 'post',
+    url: "/schools",
+    method: "post",
     data,
   });
 }
 
-export function listSchools(offset: number, limit: number, name = ''): Promise<ListResponse<School>> {
+export function listSchools(
+  offset: number,
+  limit: number,
+  name = ""
+): Promise<ListResponse<School>> {
   return httpRequest.request({
     url: `/schools?offset=${offset}&limit=${limit}&name=${name}`,
-    method: 'get',
+    method: "get",
   });
 }
 
-export function editSchool(schoolId: string, data: CreateSchoolRequest): Promise<void> {
+export function editSchool(
+  schoolId: string,
+  data: CreateSchoolRequest
+): Promise<void> {
   return httpRequest.request({
     url: `/schools/${schoolId}`,
-    method: 'put',
+    method: "put",
     data,
   });
 }
@@ -45,7 +52,7 @@ export function editSchool(schoolId: string, data: CreateSchoolRequest): Promise
 export function deleteSchool(schoolId: string): Promise<void> {
   return httpRequest.request({
     url: `/schools/${schoolId}`,
-    method: 'delete',
+    method: "delete",
   });
 }
 
@@ -53,17 +60,20 @@ export type Classroom = {
   id: string;
   name: string;
   section: string;
-}
+};
 
 export type CreateClassRequest = {
   name: string;
   section: string;
-}
+};
 
-export function createClassroom(schoolId: string, data: CreateClassRequest): Promise<Classroom> {
+export function createClassroom(
+  schoolId: string,
+  data: CreateClassRequest
+): Promise<Classroom> {
   return httpRequest.request({
     url: `/classrooms/schools/${schoolId}`,
-    method: 'post',
+    method: "post",
     data,
   });
 }
@@ -71,41 +81,60 @@ export function createClassroom(schoolId: string, data: CreateClassRequest): Pro
 export function deleteClassroom(classroomId: string): Promise<void> {
   return httpRequest.request({
     url: `/classrooms/${classroomId}`,
-    method: 'delete',
+    method: "delete",
   });
 }
 
-export function deleteClassroomFromUser(classroomId: string, userId: string): Promise<void> {
+export function deleteClassroomFromUser(
+  classroomId: string | undefined,
+  userId: string
+): Promise<void> {
   return httpRequest.request({
     url: `/classrooms/${classroomId}/users/${userId}`,
-    method: 'delete',
+    method: "delete",
   });
 }
 
-export function listClassrooms(offset: number, limit: number, name: string): Promise<ListResponse<Classroom>> {
+export function listClassrooms(
+  offset: number,
+  limit: number,
+  name: string
+): Promise<ListResponse<Classroom>> {
   return httpRequest.request({
     url: `/classrooms?offset=${offset}&limit=${limit}&name=${name}`,
-    method: 'get',
+    method: "get",
   });
 }
 
-export function listSchoolsClassrooms(schoolId: string, offset: number, limit: number, name: string): Promise<ListResponse<Classroom>> {
+export function listSchoolsClassrooms(
+  schoolId: string,
+  offset: number,
+  limit: number,
+  name: string
+): Promise<ListResponse<Classroom>> {
   return httpRequest.request({
     url: `/classrooms/schools/${schoolId}?offset=${offset}&limit=${limit}&name=${name}`,
-    method: 'get',
+    method: "get",
   });
 }
 
-export function listClassroomsByUser(userId: string, offset: number, limit: number): Promise<ListResponse<Classroom>> {
+export function listClassroomsByUser(
+  userId: string,
+  offset: number,
+  limit: number
+): Promise<ListResponse<Classroom>> {
   return httpRequest.request({
     url: `/classrooms/users/${userId}?offset=${offset}&limit=${limit}`,
-    method: 'get',
+    method: "get",
   });
 }
 
-export function addClassToUser(classRoomId: string, userId: string): Promise<ListResponse<Classroom>> {
+export function addClassToUser(
+  classRoomId: string | undefined,
+  userId: string
+): Promise<ListResponse<Classroom>> {
   return httpRequest.request({
     url: `/classrooms/${classRoomId}/users/${userId}`,
-    method: 'post',
+    method: "post",
   });
 }

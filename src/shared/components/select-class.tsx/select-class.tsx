@@ -32,7 +32,7 @@ export function SelectClass (props: SelectClassProps): JSX.Element {
 
   return (
     <React.Fragment>
-      <h5>Select Class</h5>
+      <h5>Select School</h5>
       <Row>
         <Col>
           <AsyncSelect

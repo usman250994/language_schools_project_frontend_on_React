@@ -18,6 +18,7 @@ interface ViewTeacherModalProps {
   show: boolean;
   parentId: string;
   onClose: (toogle?: boolean) => void;
+  title: string;
 }
 
 type UpdateStudentRequest = {
@@ -28,7 +29,7 @@ type UpdateStudentRequest = {
 }
 
 export function ViewTeacherModal(props: ViewTeacherModalProps): JSX.Element {
-  const { show, parentId, onClose } = props;
+  const { show, parentId, title, onClose } = props;
   const setToast = useContext(ToastContext);
 
   const fn = useCallback((offset: number, limit: number) => listParentStudent(parentId, offset, limit), [parentId]);
@@ -142,7 +143,7 @@ export function ViewTeacherModal(props: ViewTeacherModalProps): JSX.Element {
   return (
     <Modal show={show} onHide={onClose} className="account-request-view-modal">
       <Modal.Header>
-        <Modal.Title>Classes</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Formik

@@ -12,7 +12,7 @@ import { PaginatedTable } from '../../../shared/components/tables/paginated-tabl
 import { ToastContext } from '../../../shared/contexts/toast';
 
 import { CreateStudentModal } from './modals/create-student-modal';
-import { ViewTeacherModal } from './modals/view-student-modal';
+import { ViewTeacherModal as ViewStudentModal } from './modals/view-student-modal';
 
 type UpdateParentRequest = {
   id: string;
@@ -88,6 +88,7 @@ function ListParent(props: ListParentProps): JSX.Element {
   // const [viewClassModalToggle, setViewClassModalToggle] = useState(false);
 
   const onSubmit = async (values: UpdateParentRequest): Promise<void> => {
+    console.log('yah')
     setIsSubmitting(true);
     try {
       if (!initialValues) {
@@ -219,9 +220,10 @@ function ListParent(props: ListParentProps): JSX.Element {
         />}
 
       {selectedParent &&
-        <ViewTeacherModal
+        <ViewStudentModal
           show={viewStudentModalToggle}
           parentId={selectedParent.id}
+          title={'Students'}
           onClose={onClose}
         />}
 

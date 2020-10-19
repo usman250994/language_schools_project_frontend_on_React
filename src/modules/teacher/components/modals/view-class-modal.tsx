@@ -13,10 +13,11 @@ interface ViewClassModalProps {
   show: boolean;
   teacherId: string;
   onClose: (toggle?: boolean) => void;
+  title: string;
 }
 
 export function ViewClassModal(props: ViewClassModalProps): JSX.Element {
-  const { show, teacherId, onClose } = props;
+  const { show, teacherId, title, onClose } = props;
   const setToast = useContext(ToastContext);
 
   const [refresh, setRefresh] = useState<boolean>();
@@ -69,7 +70,7 @@ export function ViewClassModal(props: ViewClassModalProps): JSX.Element {
     Cell: actionCell,
   }];
 
-  const onAddClass = async(classroomId: string): Promise<void> => {
+  const onAddClass = async (classroomId: string): Promise<void> => {
     if (!classroomId) return;
 
     try {
@@ -84,11 +85,11 @@ export function ViewClassModal(props: ViewClassModalProps): JSX.Element {
   return (
     <Modal show={show} onHide={onClose} className="account-request-view-modal">
       <Modal.Header>
-        <Modal.Title>Classes</Modal.Title>
+        <Modal.Title>{title}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div>
-          <SelectClass onAddClass={onAddClass}/>
+          <SelectClass onAddClass={onAddClass} />
         </div>
         <hr />
         <div>
