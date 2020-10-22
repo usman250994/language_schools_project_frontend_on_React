@@ -12,7 +12,7 @@ type InputFieldProps<T> = {
 }
 
 type TextFieldProps = InputFieldProps<string> & {
-  type: 'text' | 'email' | 'password';
+  type: 'text' | 'email' | 'password' | 'date' | 'time';
   value?: string;
 }
 
@@ -25,7 +25,6 @@ type NumberFieldProps = InputFieldProps<number> & {
 
 export function InputField<T>(props: TextFieldProps | NumberFieldProps): JSX.Element {
   const [field, meta] = useField<T>(props);
-
   const value = ((field.value || props.value || '') as string).toString();
 
   return (
@@ -40,6 +39,7 @@ export function InputField<T>(props: TextFieldProps | NumberFieldProps): JSX.Ele
       {meta.touched && meta.error ? (
         <Form.Control.Feedback type="invalid">
           {meta.error}
+       
         </Form.Control.Feedback>
       ) : null}
     </Form.Group>

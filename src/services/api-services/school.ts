@@ -65,6 +65,9 @@ export type Classroom = {
 export type CreateClassRequest = {
   name: string;
   section: string;
+  startDate: number;
+  endDate: number;
+  weekdays: string[];
 };
 
 export function createClassroom(
