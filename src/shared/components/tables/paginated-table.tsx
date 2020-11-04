@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback } from 'react';
 import { Column } from 'react-table';
+import { date } from 'yup';
 
 import { usePaginatedApi, PaginatedAPIFunc } from '../../../hooks/api';
 import AppSpinner from '../layout/spinner';
@@ -84,8 +85,9 @@ type PaginatedTableProps<T extends object> = {
 
 export function PaginatedTable<T extends object>(props: PaginatedTableProps<T>): JSX.Element {
   const { fn, pageSize, columns, refresh = false } = props;
-
+console.log('paginated');
   const [Table, refreshTable] = WithPagination(fn, pageSize, ({ data, total }) => {
+    console.log(data, columns, 'a');
     return (
       <ReactTable
         columns={columns}

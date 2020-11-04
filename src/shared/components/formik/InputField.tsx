@@ -12,7 +12,7 @@ type InputFieldProps<T> = {
 }
 
 type TextFieldProps = InputFieldProps<string> & {
-  type: 'text' | 'email' | 'password' | 'date' | 'time';
+  type: 'text' | 'email' | 'password' | 'date' | 'time' | 'checkbox';
   value?: string;
 }
 

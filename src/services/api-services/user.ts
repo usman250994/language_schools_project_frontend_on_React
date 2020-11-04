@@ -29,6 +29,12 @@ export type UserStudent = User & {
   class: StudentsClass;
 };
 
+export type UserAttendance = {
+  id: string;
+  fullName: string;
+  status: boolean;
+};
+
 export type CreateUserRequest = {
   firstName: string;
   lastName: string;

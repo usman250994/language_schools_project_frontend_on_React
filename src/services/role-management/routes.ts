@@ -8,6 +8,8 @@ import SchoolContainer from "../../modules/school/school.container";
 import StudentContainer from "../../modules/student/student.container";
 import EmailTemplateContainer from "../../modules/email-template/emailTemplate.container";
 import TeacherContainer from "../../modules/teacher/teacher.container";
+
+import AttendanceContainer from "../../modules/attendance/attendance.container";
 import WIP from "../../shared/components/WIP";
 import { Session } from "../../shared/contexts/session";
 
@@ -85,7 +87,15 @@ const routes: Route[] = [
     sidebar: true,
     icon: FAS.faTachometerAlt,
     userRoles: [UserRole.ADMIN],
-  }
+  },
+  {
+    component: AttendanceContainer,
+    name: "Attendance",
+    url: "/attendance",
+    sidebar: true,
+    icon: FAS.faTachometerAlt,
+    userRoles: [UserRole.ADMIN],
+  },
 ];
 
 export function getRoutes({ user }: Session): Route[] {

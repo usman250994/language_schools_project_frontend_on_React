@@ -6,8 +6,9 @@ type CheckboxProps = {
   placeholder?: string;
   label?: string;
   name: string;
-  value?: boolean;
+  value?: any;
   disabled?: boolean;
+  onClick?: () => void;
 }
 
 export function Checkbox(props: CheckboxProps): JSX.Element {
@@ -15,12 +16,11 @@ export function Checkbox(props: CheckboxProps): JSX.Element {
     placeholder: props.placeholder,
     name: props.name,
   });
-
   return (
     <Form.Group>
       <Form.Check
-        checked={field.value}
-        id={field.name}
+        checked={props.value()}
+        id={props.name}
         {...field}
         {...props}
         isInvalid={!!(meta.touched && meta.error)}

@@ -10,7 +10,6 @@ type ReactTableProps<D extends object> = TableOptions<D> & {
 
 function ReactTable<D extends object>(props: ReactTableProps<D>): JSX.Element {
   const { columns, data } = props;
-
   const {
     getTableProps,
     getTableBodyProps,
