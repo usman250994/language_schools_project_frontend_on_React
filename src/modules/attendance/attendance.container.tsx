@@ -33,7 +33,6 @@ function AttendanceContainer(): JSX.Element {
             } else {
                 await updateUserAttendance(stud, classSelected, classDate)
             }
-            
             return true;
         } catch (e) {
             setToast({ type: 'error', message: e.message });

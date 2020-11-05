@@ -51,7 +51,7 @@ export function EditButton(props: ButtonProps): JSX.Element {
 export function SaveButton(props: ButtonProps): JSX.Element {
   return (
     <Button className="button-icon" {...props}>
-      <FontAwesomeIcon icon={FAS.faCheck} />
+     {props.title} <FontAwesomeIcon icon={FAS.faCheck} />
     </Button>
   );
 }

@@ -1,13 +1,11 @@
 import { Formik, Form as FormikForm } from 'formik';
-import React, { useState, useContext } from 'react';
+import React, {useContext } from 'react';
 import { CellProps } from 'react-table';
 import { UserAttendance } from '../../../services/api-services/user';
 import { ToastContext } from '../../../shared/contexts/toast';
 import ReactTable from '../../../shared/components/tables/table';
-import { EditButton, SaveButton } from '../../../shared/components/ActionButtons';
-import { InputField } from '../../../shared/components/formik/InputField';
+import {  SaveButton } from '../../../shared/components/ActionButtons';
 import { Checkbox } from '../../../shared/components/formik/Checkbox';
-import { boolean } from 'yup';
 
 interface AttendanceListProps {
 	students: UserAttendance[];
@@ -16,8 +14,6 @@ interface AttendanceListProps {
 
 function AttendanceList(props: AttendanceListProps): JSX.Element {
 	let { students, handleAttendance } = props;
-
-	const [isSubmitting, setIsSubmitting] = useState(false);
 	const setToast = useContext(ToastContext);
 
 	const fullNameCell = (data: CellProps<UserAttendance>): string => {
@@ -45,21 +41,16 @@ console.log('yaha aya?')
 			: x
 		));
 		students = [...students];
-	
 	}
 
 	const onSubmit = async (): Promise<void> => {
-
-		setIsSubmitting(true);
 		try {
-			const updated = await handleAttendance(students);
-			// setInitialValues(students);
-			   students = [...students];
+			const updatedStudents = await handleAttendance(students);  
+			students = [...students];
 			setToast({ type: 'success', message: 'Class attendance succesfully updated' });
 		} catch (err) {
 			setToast({ type: 'error', message: err.message });
 		} finally {
-			// setIsSubmitting(false);
 		}
 	};
 
@@ -74,7 +65,6 @@ console.log('yaha aya?')
 	return (
 		<div className="shadow-box">
 			<h4>STUDENTS</h4>
-
 			<Formik
 				enableReinitialize={false}
 				initialValues={students}
@@ -86,7 +76,7 @@ console.log('yaha aya?')
 						columns={columns}
 						total={students.length}
 					/>
-					<SaveButton type="submit" />
+					<SaveButton type="submit" title="submit attendance"/>
 				</FormikForm>
 			</Formik>
 

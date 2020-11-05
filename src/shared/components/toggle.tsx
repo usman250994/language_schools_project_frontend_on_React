@@ -14,7 +14,7 @@ export function ToggleSwitch(props: ToggleClassProps): JSX.Element {
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
             <label>Create Attendance</label><Switch onChange={handleChange} checked={checked} uncheckedIcon={uncheckedIcon}
-            /><label>Update Or View Attendance</label>
+            /><label>Update/View Attendance</label>
         </div>
     );
 
