@@ -28,7 +28,7 @@ export function InputField<T>(props: TextFieldProps | NumberFieldProps): JSX.Ele
   const value = ((field.value || props.value || '') as string).toString();
 
   return (
-    <Form.Group>
+    <Form.Group className="w-100">
       {props.label && <Form.Label>{props.label}</Form.Label>}
       <Form.Control
         {...field}
@@ -39,7 +39,7 @@ export function InputField<T>(props: TextFieldProps | NumberFieldProps): JSX.Ele
       {meta.touched && meta.error ? (
         <Form.Control.Feedback type="invalid">
           {meta.error}
-       
+
         </Form.Control.Feedback>
       ) : null}
     </Form.Group>

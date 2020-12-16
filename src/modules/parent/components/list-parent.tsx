@@ -1,5 +1,6 @@
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useCallback, useState, useContext } from 'react';
+import { Form } from 'react-bootstrap';
 import { CellProps } from 'react-table';
 import * as Yup from 'yup';
 
@@ -29,8 +30,9 @@ function ListParent(props: ListParentProps): JSX.Element {
   const { onUpdate, refresh } = props;
 
   const setToast = useContext(ToastContext);
+  const [searchParams, setSearchParams] = useState({ name: '' });
 
-  const fn = useCallback((offset: number, limit: number) => listUsers(UserRole.PARENT, offset, limit), [refresh]);
+  const fn = useCallback((offset: number, limit: number) => listUsers(UserRole.PARENT, offset, limit, searchParams.name), [refresh, searchParams]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [selectedParent, setSelectedParent] = useState<User>();
@@ -87,8 +89,14 @@ function ListParent(props: ListParentProps): JSX.Element {
   // const [createClassModalToggle, setCreateClassModalToggle] = useState(false);
   // const [viewClassModalToggle, setViewClassModalToggle] = useState(false);
 
+  const searchBy = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    // await searchStudents({ keyword: e.target.value });
+
+    setSearchParams({ name: e.target.value });
+  };
+
   const onSubmit = async (values: UpdateParentRequest): Promise<void> => {
-    console.log('yah')
+    console.log('yah');
     setIsSubmitting(true);
     try {
       if (!initialValues) {
@@ -195,6 +203,12 @@ function ListParent(props: ListParentProps): JSX.Element {
 
   return (
     <div className="shadow-box">
+      <div className="d-flex justify-content-end">
+        <Form.Group>
+          <Form.Label>Search</Form.Label>
+          <Form.Control onChange={searchBy} />
+        </Form.Group>
+      </div>
       <h4>Parents</h4>
 
       <Formik
@@ -223,7 +237,7 @@ function ListParent(props: ListParentProps): JSX.Element {
         <ViewStudentModal
           show={viewStudentModalToggle}
           parentId={selectedParent.id}
-          title={'Students'}
+          title="Students"
           onClose={onClose}
         />}
 

@@ -1,5 +1,7 @@
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useCallback, useState, useContext } from 'react';
+import { Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
 import { CellProps } from 'react-table';
 import * as Yup from 'yup';
 
@@ -29,9 +31,13 @@ interface ListSchoolsProps {
 function ListSchools(props: ListSchoolsProps): JSX.Element {
   const { onUpdate, refresh } = props;
 
+  const history = useHistory();
+
   const setToast = useContext(ToastContext);
 
-  const fn = useCallback((offset: number, limit: number) => listSchools(offset, limit), [refresh]);
+  const [searchParams, setSearchParams] = useState({ name: '' });
+
+  const fn = useCallback((offset: number, limit: number) => listSchools(offset, limit, searchParams.name), [refresh, searchParams]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialDefaultValue = {
@@ -184,8 +190,7 @@ function ListSchools(props: ListSchoolsProps): JSX.Element {
           title="Edit School"
           text="Edit School"
         />
-        <InfoButton onClick={(): void => openModal(school, 'show')} title="View Class" text="View Class" />
-        <AddButton onClick={(): void => openModal(school, 'create')} title="Add Class" text="Add Class" />
+        <InfoButton onClick={(): void => history.push(`/school/${school.id}/${school.name}/classrooms`)} title="Add Class" text="Add Class" />
       </React.Fragment>
     );
   };
@@ -207,9 +212,22 @@ function ListSchools(props: ListSchoolsProps): JSX.Element {
     Cell: actionCell,
   }];
 
+  const searchBy = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    // await searchStudents({ keyword: e.target.value });
+
+    setSearchParams({ name: e.target.value });
+  };
+
   return (
     <div className="shadow-box">
       <h4>Schools</h4>
+
+      <div className="d-flex justify-content-end">
+        <Form.Group>
+          <Form.Label>Search</Form.Label>
+          <Form.Control onChange={searchBy} />
+        </Form.Group>
+      </div>
 
       <Formik
         enableReinitialize={true}

@@ -1,5 +1,6 @@
 import { Formik, Form as FormikForm } from 'formik';
 import React, { useCallback, useState, useContext } from 'react';
+import { Form } from 'react-bootstrap';
 import { CellProps } from 'react-table';
 import * as Yup from 'yup';
 
@@ -28,8 +29,9 @@ function ListTeacher(props: ListTeacherProps): JSX.Element {
   const { onUpdate, refresh } = props;
 
   const setToast = useContext(ToastContext);
+  const [searchParams, setSearchParams] = useState({ name: '' });
 
-  const fn = useCallback((offset: number, limit: number) => listUsers(UserRole.TEACHER, offset, limit), [refresh]);
+  const fn = useCallback((offset: number, limit: number) => listUsers(UserRole.TEACHER, offset, limit, searchParams.name), [refresh, searchParams]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const initialDefaultValue = {
@@ -175,8 +177,20 @@ function ListTeacher(props: ListTeacherProps): JSX.Element {
     Cell: actionCell,
   }];
 
+  const searchBy = async (e: React.ChangeEvent<HTMLInputElement>): Promise<void> => {
+    // await searchStudents({ keyword: e.target.value });
+
+    setSearchParams({ name: e.target.value });
+  };
+
   return (
     <div className="shadow-box">
+      <div className="d-flex justify-content-end">
+        <Form.Group>
+          <Form.Label>Search</Form.Label>
+          <Form.Control onChange={searchBy} />
+        </Form.Group>
+      </div>
       <h4>Teachers</h4>
 
       <Formik
@@ -199,7 +213,7 @@ function ListTeacher(props: ListTeacherProps): JSX.Element {
           show={viewClassModalToggle}
           teacherId={selectedUser ? selectedUser.id : ''}
           onClose={onClose}
-          title={'Manage Classes'}
+          title="Manage Classes"
         />}
 
       <DeleteModal

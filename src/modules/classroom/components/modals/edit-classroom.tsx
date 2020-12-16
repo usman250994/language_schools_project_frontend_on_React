@@ -3,14 +3,15 @@ import React, { useContext } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 
-import { School, createClassroom, DaysText } from '../../../../services/api-services/school';
+import { School, createClassroom, DaysText, ClassRoomWithTimeTable, editClassroom } from '../../../../services/api-services/school';
 import { Dropdown } from '../../../../shared/components/formik/Dropdown';
 import { InputField } from '../../../../shared/components/formik/InputField';
 import { ToastContext } from '../../../../shared/contexts/toast';
 
 interface CreateClassModalProps {
   show: boolean;
-  school: School;
+  classroom: ClassRoomWithTimeTable;
+  schoolId: string;
   onClose: (refresh?: boolean) => void;
 }
 
@@ -24,18 +25,18 @@ type CreateClassRoomRequest = {
   day: string;
 }
 
-export function CreateClassModal(props: CreateClassModalProps): JSX.Element {
-  const { show, school, onClose } = props;
+export function EditClassroomModal(props: CreateClassModalProps): JSX.Element {
+  const { show, classroom, schoolId, onClose } = props;
   const setToast = useContext(ToastContext);
 
   const initialValues = {
-    name: '',
-    section: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    endTime: '',
-    day: '',
+    name: classroom.name,
+    section: classroom.section,
+    startDate: classroom.timeTable?.startDate || '',
+    endDate: classroom.timeTable?.endDate || '',
+    startTime: classroom.timeTable?.startTime || '',
+    endTime: classroom.timeTable?.endTime || '',
+    day: classroom.timeTable?.day || '',
   };
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(1).required('Required').label('name'),
@@ -49,7 +50,7 @@ export function CreateClassModal(props: CreateClassModalProps): JSX.Element {
 
   const onSubmit = async (values: CreateClassRoomRequest, { resetForm }: FormikHelpers<CreateClassRoomRequest>): Promise<void> => {
     try {
-      await createClassroom(school.id, values);
+      await editClassroom(classroom.id, schoolId, values);
 
       resetForm();
       setToast({ type: 'success', message: 'classroom created successfully' });
@@ -69,6 +70,7 @@ export function CreateClassModal(props: CreateClassModalProps): JSX.Element {
           initialValues={initialValues}
           validationSchema={validationSchema}
           onSubmit={onSubmit}
+          enableReinitialize={true}
         >
           {({ isSubmitting }): JSX.Element => (
             <FormikForm>

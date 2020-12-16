@@ -1,0 +1,16 @@
+.attendance-grid {
+  display: flex;
+  flex: 1;
+  max-width: 67vw;
+
+  .students {
+    flex: 0.1;
+    text-align: center;
+    margin-top: 1rem;
+    
+    div {
+      padding-right: 2rem;
+      height: 2.8rem;
+    }
+  }
+}

@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Button, Row, Col } from 'react-bootstrap';
+import { ValueType } from 'react-select';
 import AsyncSelect from 'react-select/async';
 
-import { listSchoolsClassrooms, listSchools } from '../../../services/api-services/school';
+import { listSchoolsClassrooms, listSchools, School, Classroom } from '../../../services/api-services/school';
+
+import './select-class.scss';
 
 type SelectClassProps = {
   onAddClass?: (classRoomId: string) => void;
   onClassSelect?: (classRoomId: string | undefined) => void;
   onSchoolSelect?: (schoolRoomId: string | undefined) => void;
+  defaultSchool?: School;
+  defaultClassRoom?: Classroom;
+  heading?: string;
 }
 
 export function SelectClass (props: SelectClassProps): JSX.Element {
-  const { onAddClass, onClassSelect, onSchoolSelect } = props;
+  const { onAddClass, onClassSelect, onSchoolSelect, heading, defaultSchool, defaultClassRoom } = props;
 
-  const [selectedSchoolId, setSelectedSchoolId] = useState<string>();
-  const [selectedClassroomId, setSelectedClassroomId] = useState<string>();
+  const [selectedSchoolId, setSelectedSchoolId] = useState(defaultSchool?.id);
+  const [selectedClassroomId, setSelectedClassroomId] = useState(defaultClassRoom?.id);
 
-  const loadClasses = async (inputValue: string): Promise<{value: string; label: string}[] | undefined> => {
+  const loadClasses = async (inputValue: string): Promise<{id: string; name: string}[] | undefined> => {
     if (selectedSchoolId) {
       const { data } = await listSchoolsClassrooms(selectedSchoolId, 0, 5, inputValue);
 
-      return data.map(d => ({value: d.id, label: `${d.name} ${d.section}`}));
+      return data.map(d => ({id: d.id, name: `${d.name} ${d.section}`}));
     }
   };
 
-  const loadSchools = async (inputValue: string): Promise<{value: string; label: string}[]> => {
+  const loadSchools = async (inputValue: string): Promise<{id: string; name: string}[]> => {
     const { data } = await listSchools(0, 5, inputValue);
 
-    return data.map(d => ({value: d.id, label: d.name}));
+    return data.map(d => ({id: d.id, name: d.name}));
   };
 
   return (
-    <React.Fragment>
-      <h5>Select School</h5>
+    <div className="select-class">
+      <h5>{heading ?? 'Select School'}</h5>
       <Row>
         <Col>
           <AsyncSelect
@@ -40,8 +46,8 @@ export function SelectClass (props: SelectClassProps): JSX.Element {
             loadOptions={loadSchools}
             defaultOptions
             onChange={(value: any): void => {
-              setSelectedSchoolId(value.value);
-              onSchoolSelect && onSchoolSelect(value.value);
+              setSelectedSchoolId(value.id);
+              onSchoolSelect && onSchoolSelect(value.id);
             }}
             onMenuOpen={() => {
               setSelectedSchoolId(undefined);
@@ -49,6 +55,9 @@ export function SelectClass (props: SelectClassProps): JSX.Element {
               onSchoolSelect && onSchoolSelect(undefined);
               onClassSelect && onClassSelect(undefined);
             }}
+            defaultValue={defaultSchool}
+            getOptionLabel={(option: School): string => option.name}
+            getOptionValue={(option: School): string => option.id}
           />
 
         </Col>
@@ -59,13 +68,16 @@ export function SelectClass (props: SelectClassProps): JSX.Element {
               loadOptions={loadClasses}
               defaultOptions
               onChange={(val: any): void => {
-                setSelectedClassroomId(val.value);
-                onClassSelect && onClassSelect(val.value);
+                setSelectedClassroomId(val.id);
+                onClassSelect && onClassSelect(val.id);
               }}
+              defaultValue={defaultClassRoom}
+              getOptionLabel={(option: Classroom): string => option.name}
+              getOptionValue={(option: Classroom): string => option.id}
             />}
         </Col>
       </Row>
-      {onAddClass && <div style={{ textAlign: 'end', marginTop: '1rem' }}>
+      {onAddClass && <div className="add-btn">
         <Button disabled={!selectedClassroomId} onClick={(): void => {
           if (selectedClassroomId) {
             onAddClass && onAddClass(selectedClassroomId);
@@ -73,6 +85,6 @@ export function SelectClass (props: SelectClassProps): JSX.Element {
         }}
         > Add </Button>
       </div>}
-    </React.Fragment>
+    </div>
   );
 }

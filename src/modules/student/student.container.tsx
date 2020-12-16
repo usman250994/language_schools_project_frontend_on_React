@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
-import { SelectClass } from '../../shared/components/select-class.tsx/select-class';
+
 import { addClassToUser } from '../../services/api-services/school';
+import { SelectClass } from '../../shared/components/select-class.tsx/select-class';
 import { SelectParent } from '../../shared/components/select-parent/select-parent';
+
+import { CreateStudent } from './components/create-student';
 import ListStudent from './components/list-students';
 
 function StudentContainer(): JSX.Element {
@@ -12,7 +15,7 @@ function StudentContainer(): JSX.Element {
 
   const _setParentSelected = (_parentId?: string): void => {
     setRefresh(!refresh);
-    setParentSelected(_parentId)
+    setParentSelected(_parentId);
   };
 
   const _setClassSelected = (_classroomId?: string): void => {
@@ -22,12 +25,12 @@ function StudentContainer(): JSX.Element {
   const studentSelected = (userId: string) => {
     //todo: if class not selcted then show msg to select class first
     addClassToUser(classSelected, userId);
-  }
-  
+  };
+
   return (
     <div>
       <h4>Manage Students</h4>
-      <Row>
+      {/* <Row>
         <Col>
           <div className="shadow-box">
             <SelectClass onClassSelect={_setClassSelected} />
@@ -47,14 +50,9 @@ function StudentContainer(): JSX.Element {
             <SelectParent onParentSelect={_setParentSelected} />
           </div>
         </Col>
-      </Row>
-      <Row>
-        <Col>
-          <div className="shadow-box">
-            <ListStudent refresh={refresh} onUpdate={(): void => setRefresh(!refresh)} parentId={parentSelected} studentSelected={(userId: string) => studentSelected(userId)} />
-          </div>
-        </Col>
-      </Row>
+      </Row> */}
+      <CreateStudent onUpdate={(): void => setRefresh(!refresh)} />
+      <ListStudent refresh={refresh} onUpdate={(): void => setRefresh(!refresh)} />
     </div>
   );
 }

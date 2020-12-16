@@ -1,8 +1,10 @@
-import { type } from "os";
-import { UserRole } from "../role-management/roles";
+import { type } from 'os';
 
-import httpRequest from "./config/HttpRequest";
-import { ListResponse } from "./interfaces";
+import { UserRole } from '../role-management/roles';
+
+import httpRequest from './config/HttpRequest';
+import { ListResponse } from './interfaces';
+import { Classroom, School } from './school';
 
 export type User = {
   id: string;
@@ -45,20 +47,16 @@ export type CreateUserRequest = {
 
 export function createUser(data: CreateUserRequest): Promise<User> {
   return httpRequest.request({
-    url: "/users",
-    method: "post",
+    url: '/users',
+    method: 'post',
     data,
   });
 }
 
-export function listUsers(
-  role: UserRole,
-  offset: number,
-  limit: number
-): Promise<ListResponse<UserStudent>> {
+export function listUsers(role: UserRole, offset: number, limit: number, keyword = ''): Promise<ListResponse<UserStudent>> {
   return httpRequest.request({
-    url: `/users/${role}?offset=${offset}&limit=${limit}`,
-    method: "get",
+    url: `/users/${role}?offset=${offset}&limit=${limit}&keyword=${keyword}`,
+    method: 'get',
   });
 }
 
@@ -70,7 +68,7 @@ export function listusersByInputWord(
 ): Promise<ListResponse<User>> {
   return httpRequest.request({
     url: `/users/${role}/byKeyword?offset=${offset}&limit=${limit}&keyword=${keyword}`,
-    method: "get",
+    method: 'get',
   });
 }
 
@@ -86,7 +84,7 @@ export function editUser(
 ): Promise<ListResponse<User>> {
   return httpRequest.request({
     url: `/users/${id}`,
-    method: "put",
+    method: 'put',
     data,
   });
 }
@@ -94,7 +92,7 @@ export function editUser(
 export function deleteUser(id: string): Promise<ListResponse<User>> {
   return httpRequest.request({
     url: `/users/${id}`,
-    method: "delete",
+    method: 'delete',
   });
 }
 
@@ -104,7 +102,23 @@ export function addStudentToParent(
 ): Promise<ListResponse<User>> {
   return httpRequest.request({
     url: `/students/parent/${parentId}`,
-    method: "post",
+    method: 'post',
+    data,
+  });
+}
+
+export function createStudent(data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string }): Promise<User> {
+  return httpRequest.request({
+    url: '/students',
+    method: 'post',
+    data,
+  });
+}
+
+export function updateStudent(studentId: string, data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string }): Promise<User> {
+  return httpRequest.request({
+    url: `/students/${studentId}`,
+    method: 'put',
     data,
   });
 }
@@ -116,7 +130,7 @@ export function listParentStudent(
 ): Promise<ListResponse<UserStudent>> {
   return httpRequest.request({
     url: `/students/parent/${parentId}?offset=${offset}&limit=${limit}`,
-    method: "get",
+    method: 'get',
   });
 }
 
@@ -128,6 +142,27 @@ export function listUsersOfClass(
 ): Promise<ListResponse<UserStudent>> {
   return httpRequest.request({
     url: `/classrooms/${classroomId}/users/${userType}?offset=${offset}&limit=${limit}`,
-    method: "get",
+    method: 'get',
+  });
+}
+
+export type StudentInfo = User & Partial<{
+  parent: User;
+  classRoom: Classroom;
+  school: School;
+}>
+
+export function getStudent(id: string): Promise<StudentInfo> {
+  return httpRequest.request({
+    url: `/students/${id}`,
+    method: 'get',
+  });
+}
+
+export function searchStudents(data: { keyword?: string }, offset: number, limit: number): Promise<ListResponse<StudentInfo>> {
+  return httpRequest.request({
+    url: `/students/search?offset=${offset}&limit=${limit}`,
+    method: 'post',
+    data,
   });
 }

@@ -17,6 +17,7 @@
     "@types/react-transition-group": "^4.2.4",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "date-fns": "^2.16.1",
     "formik": "^2.1.4",
     "jsonwebtoken": "^8.5.1",
     "query-string": "^6.12.1",
