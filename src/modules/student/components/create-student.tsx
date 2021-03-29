@@ -27,6 +27,7 @@ export function CreateStudent(props: CreateStudentProps): JSX.Element {
   const setToast = useContext(ToastContext);
 
   const [classRoomId, setClassRoomId] = useState<string>();
+  const [divisionId, setDivisionId] = useState<string>();
   const [parentId, setParentId] = useState<string>();
 
   const initialValues: CreateStudentRequest = {
@@ -50,6 +51,7 @@ export function CreateStudent(props: CreateStudentProps): JSX.Element {
         email: values.email,
         password: values.password,
         classRoomId: classRoomId,
+        divisionId: divisionId,
         parentId,
       });
 
@@ -68,6 +70,12 @@ export function CreateStudent(props: CreateStudentProps): JSX.Element {
     if (!classroomId) return;
 
     setClassRoomId(classroomId);
+  };
+
+  const onDivisionSelect = async (divisionId?: string): Promise<void> => {
+    if (!divisionId) return;
+
+    setDivisionId(divisionId);
   };
 
   const onParentSelect = async (parentId?: string): Promise<void> => {
@@ -97,7 +105,7 @@ export function CreateStudent(props: CreateStudentProps): JSX.Element {
             <InputField type="email" name="email" label="Email" disabled={isSubmitting} />
             <InputField type="password" name="password" label="New Password" disabled={isSubmitting} />
 
-            <SelectClass heading="Enroll in School" onClassSelect={onClassSelect} />
+            <SelectClass heading="Enroll in School" onClassSelect={onClassSelect} onDivisionSelect={onDivisionSelect} />
             <SelectParent heading="Select Parents" onParentSelect={onParentSelect} />
 
             <Button type="submit" disabled={isSubmitting}>Create</Button>

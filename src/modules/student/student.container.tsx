@@ -51,8 +51,8 @@ function StudentContainer(): JSX.Element {
           </div>
         </Col>
       </Row> */}
-      <CreateStudent onUpdate={(): void => setRefresh(!refresh)} />
       <ListStudent refresh={refresh} onUpdate={(): void => setRefresh(!refresh)} />
+      <CreateStudent onUpdate={(): void => setRefresh(!refresh)} />
     </div>
   );
 }

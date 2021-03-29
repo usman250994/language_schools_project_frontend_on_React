@@ -12,17 +12,23 @@ import AttendanceList from './components/attendance-list';
 
 function AttendanceContainer(): JSX.Element {
   const [classSelected, setClassSelected] = useState<string>();
+  const [divisionSelected, setDivisionSelected] = useState<string>();
   const _setClassSelected = (_classroomId?: string): void => {
     if (_classroomId) {
       setClassSelected(_classroomId);
+    }
+  };
+  const _onDivisionSelect = (_divisionId?: string): void => {
+    if (_divisionId) {
+      setDivisionSelected(_divisionId);
     }
   };
 
   return (
     <div>
       <div className="shadow-box">
-        <SelectClass onClassSelect={_setClassSelected} />
-        {classSelected && <AttendanceList classId={classSelected} />}
+        <SelectClass onClassSelect={_setClassSelected} onDivisionSelect={_onDivisionSelect} />
+        {classSelected && <AttendanceList classId={classSelected} divisionId={divisionSelected} />}
       </div>
     </div>
   );

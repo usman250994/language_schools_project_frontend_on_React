@@ -107,7 +107,7 @@ export function addStudentToParent(
   });
 }
 
-export function createStudent(data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string }): Promise<User> {
+export function createStudent(data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string; divisionId?: string }): Promise<User> {
   return httpRequest.request({
     url: '/students',
     method: 'post',

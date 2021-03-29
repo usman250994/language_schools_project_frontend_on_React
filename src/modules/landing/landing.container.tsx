@@ -18,7 +18,7 @@ function LandingContainer(): JSX.Element | null {
   }
 
   if ([UserRole.ADMIN, UserRole.PARENT, UserRole.TEACHER].includes(user.role)) {
-    return <Redirect to="/assignments" />;
+    return <Redirect to="/students" />;
   } else if (UserRole.SUPER_ADMIN === user.role) {
     return <Redirect to="/create-admin" />;
   }

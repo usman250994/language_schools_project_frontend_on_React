@@ -1,11 +1,13 @@
 import { Formik, Form as FormikForm, FormikHelpers } from 'formik';
-import React, { useContext } from 'react';
-import { Modal, Button } from 'react-bootstrap';
+import React, { useContext, useState } from 'react';
+import { Modal, Button, Table } from 'react-bootstrap';
 import * as Yup from 'yup';
 
+import { Division } from '../../../../services/api-services/division';
 import { School, createClassroom, DaysText } from '../../../../services/api-services/school';
 import { Dropdown } from '../../../../shared/components/formik/Dropdown';
 import { InputField } from '../../../../shared/components/formik/InputField';
+import { SelectDivision } from '../../../../shared/components/select-division/select-division';
 import { ToastContext } from '../../../../shared/contexts/toast';
 
 interface CreateClassModalProps {
@@ -17,39 +19,25 @@ interface CreateClassModalProps {
 type CreateClassRoomRequest = {
   name: string;
   section: string;
-  startDate: string;
-  endDate: string;
-  startTime: string;
-  endTime: string;
-  day: string;
 }
 
 export function CreateClassModal(props: CreateClassModalProps): JSX.Element {
   const { show, school, onClose } = props;
   const setToast = useContext(ToastContext);
+  const [division, setDivision] = useState<Division>();
 
   const initialValues = {
     name: '',
     section: '',
-    startDate: '',
-    endDate: '',
-    startTime: '',
-    endTime: '',
-    day: '',
   };
   const validationSchema = Yup.object().shape({
     name: Yup.string().min(1).required('Required').label('name'),
     section: Yup.string().min(1).required('Required').label('section'),
-    startDate: Yup.string().label('startDate'),
-    endDate: Yup.string().label('endDate'),
-    startTime: Yup.string().label('startTime'),
-    endTime: Yup.string().label('endTime'),
-    day: Yup.string().label('day'),
   });
 
   const onSubmit = async (values: CreateClassRoomRequest, { resetForm }: FormikHelpers<CreateClassRoomRequest>): Promise<void> => {
     try {
-      await createClassroom(school.id, values);
+      await createClassroom(school.id, { ...values, divisionId: division?.id });
 
       resetForm();
       setToast({ type: 'success', message: 'classroom created successfully' });
@@ -76,15 +64,40 @@ export function CreateClassModal(props: CreateClassModalProps): JSX.Element {
                 <InputField name="name" type="text" label="Class Name" />
                 <InputField name="section" type="text" label="Section" />
               </div>
-              <div className="d-flex justify-content-between">
-                <InputField name="startDate" type="date" label="Start Date" />
-                <InputField name="endDate" type="date" label="End Date" />
-              </div>
-              <div className="d-flex justify-content-between">
-                <InputField name="startTime" type="time" label="Start Time" />
-                <InputField name="endTime" type="time" label="End Time" />
-              </div>
-              <Dropdown name="day" label="Day" options={DaysText} disabled={isSubmitting} />
+              <SelectDivision onDivisionSelect={setDivision} />
+              {division && <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>{division['name']}</th>
+                  </tr>
+                  <tr>
+                    <th>Amount</th>
+                    <th>{division['amount']}</th>
+                  </tr>
+                  <tr>
+                    <th>Day</th>
+                    <th>{division['day']}</th>
+                  </tr>
+                  <tr>
+                    <th>Start Date</th>
+                    <th>{division['startDate']}</th>
+                  </tr>
+                  <tr>
+                    <th>End Date</th>
+                    <th>{division['endDate']}</th>
+                  </tr>
+                  <tr>
+                    <th>Start Time</th>
+                    <th>{division['startTime']}</th>
+                  </tr>
+                  <tr>
+                    <th>End Time</th>
+                    <th>{division['endTime']}</th>
+                  </tr>
+                </thead>
+              </Table>
+              }
               <Button type="submit" disabled={isSubmitting}>Create</Button>
             </FormikForm>
           )}

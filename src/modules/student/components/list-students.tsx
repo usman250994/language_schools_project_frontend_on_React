@@ -108,10 +108,10 @@ function ListStudent(props: ListStudentProps): JSX.Element {
     Cell: (data: CellProps<StudentInfo>): string => data.row.original.school?.name || '',
   }, {
     Header: 'Class',
-    Cell: (data: CellProps<StudentInfo>): string => `${data.row.original.classRoom?.name} ${data.row.original.classRoom?.section}` || '',
+    Cell: (data: CellProps<StudentInfo>): string => `${data.row.original.classRoom?.name || ''} ${data.row.original.classRoom?.section || ''}` || '',
   }, {
     Header: 'Parent',
-    Cell: (data: CellProps<StudentInfo>): string => `${data.row.original.parent?.firstName} ${data.row.original.parent?.lastName}` || '',
+    Cell: (data: CellProps<StudentInfo>): string => `${data.row.original.parent?.firstName || ''} ${data.row.original.parent?.lastName || ''}` || '',
   }, {
     Header: 'Date of Birth',
     Cell: (data: CellProps<StudentInfo>): string => data.row.original.dob || '',
@@ -139,6 +139,7 @@ function ListStudent(props: ListStudentProps): JSX.Element {
           <Form.Control onChange={searchBy} />
         </Form.Group>
       </div>
+      <h4>Students</h4>
       <PaginatedTable
         fn={fn}
         pageSize={10}

@@ -1,6 +1,7 @@
 import queryString from 'query-string';
 
 import httpRequest from './config/HttpRequest';
+import { Division } from './division';
 import { ListResponse } from './interfaces';
 
 export type School = {
@@ -60,6 +61,7 @@ export type Classroom = {
   id: string;
   name: string;
   section: string;
+  division?: Division;
 };
 
 export type CreateClassRequest = {
@@ -96,7 +98,7 @@ export const DaysIndexed = Object.keys(DaysText);
 
 export function createClassroom(
   schoolId: string,
-  data: CreateClassRequest
+  data: { name: string; section: string; divisionId: string | undefined }
 ): Promise<Classroom> {
   return httpRequest.request({
     url: `/classrooms/schools/${schoolId}`,
@@ -105,7 +107,7 @@ export function createClassroom(
   });
 }
 
-export function editClassroom(classroomId: string, schoolId: string, data: CreateClassRequest): Promise<Classroom> {
+export function editClassroom(classroomId: string, schoolId: string, data: { name: string; section: string; divisionId: string | undefined }): Promise<Classroom> {
   return httpRequest.request({
     url: `/classrooms/${classroomId}/schools/${schoolId}`,
     method: 'put',

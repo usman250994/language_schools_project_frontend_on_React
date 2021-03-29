@@ -5,6 +5,7 @@ import CreateAdmin from '../../modules/admin/create-admin';
 import AssignmentsContainer from '../../modules/assignments/assignments.container';
 import AttendanceContainer from '../../modules/attendance/attendance.container';
 import ClassroomContainer from '../../modules/classroom/classroom.container';
+import DivisionContainer from '../../modules/division/division.container';
 import EmailTemplateContainer from '../../modules/email-template/emailTemplate.container';
 import ParentContainer from '../../modules/parent/parent.container';
 import SchoolContainer from '../../modules/school/school.container';
@@ -25,6 +26,14 @@ export type Route = {
 };
 
 const routes: Route[] = [
+  {
+    component: StudentContainer,
+    name: 'Students',
+    url: '/students',
+    sidebar: true,
+    icon: FAS.faTachometerAlt,
+    userRoles: [UserRole.ADMIN],
+  },
   {
     //   component: WIP,
     //   name: 'Dashboard',
@@ -73,14 +82,6 @@ const routes: Route[] = [
     userRoles: [UserRole.ADMIN, UserRole.TEACHER, UserRole.PARENT],
   },
   {
-    component: StudentContainer,
-    name: 'Students',
-    url: '/students',
-    sidebar: true,
-    icon: FAS.faTachometerAlt,
-    userRoles: [UserRole.ADMIN],
-  },
-  {
     component: EmailTemplateContainer,
     name: 'Email Templates',
     url: '/emailTemplates',
@@ -101,6 +102,13 @@ const routes: Route[] = [
     name: 'Classrooms',
     url: '/school/:schoolId/:schoolName/classrooms',
     sidebar: false,
+    userRoles: [UserRole.ADMIN],
+  },
+  {
+    component: DivisionContainer,
+    name: 'Divisions',
+    url: '/division',
+    sidebar: true,
     userRoles: [UserRole.ADMIN],
   },
 ];

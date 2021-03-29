@@ -26,8 +26,8 @@ export function createUserAttendance(students: UserAttendance[], classroomId: st
 
 export function updateUserAttendance(
   students: UserAttendance[],
-  classroomId: string| undefined,
-  dateSelected: number| undefined
+  classroomId: string | undefined,
+  dateSelected: number | undefined
 ): Promise<boolean> {
   const data = {
     students,
@@ -70,8 +70,8 @@ type UserWithAttendance = User & { attendance: StudentAttendance[] }
 
 export type ClassAttendanceTimeTable = { timeTable: TimeTable; students: UserWithAttendance[] }
 
-export function getClassroomTimeTable(classroomId: string): Promise<ClassAttendanceTimeTable>{
-  return httpRequest.request({ url: `/attendance/classroom/${classroomId}`, method: 'get' });
+export function getClassroomTimeTable(classroomId: string, divisionId: string): Promise<ClassAttendanceTimeTable> {
+  return httpRequest.request({ url: `/attendance/classroom/${classroomId}/divisionId/${divisionId}`, method: 'get' });
 }
 
 export type StudentAttendance = {
@@ -80,6 +80,6 @@ export type StudentAttendance = {
   attendanceDate: Date;
 }
 
-export function markClassAttendance(classroomId: string, attendanceStatuses: StudentAttendance[]): Promise<ClassAttendanceTimeTable>{
-  return httpRequest.request({ url: `/attendance/classroom/${classroomId}`, method: 'post', data: { attendanceStatuses } });
+export function markClassAttendance(classroomId: string, divisionId: string, attendanceStatuses: StudentAttendance[]): Promise<ClassAttendanceTimeTable> {
+  return httpRequest.request({ url: `/attendance/classroom/${classroomId}/divisionId/${divisionId}`, method: 'post', data: { attendanceStatuses } });
 }

@@ -1,5 +1,5 @@
 import { getDay, addDays, format, compareDesc, isEqual, parseISO } from 'date-fns';
-import React, {useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Table } from 'react-bootstrap';
 
 import { getClassroomTimeTable, ClassAttendanceTimeTable, AttendanceStatus, StudentAttendance, markClassAttendance } from '../../../services/api-services/attendance';
@@ -8,11 +8,12 @@ import { DaysIndexed } from '../../../services/api-services/school';
 import './attendance.scss';
 
 interface AttendanceListProps {
-	classId: string;
+  classId?: string;
+  divisionId?: string;
 }
 
 function AttendanceList(props: AttendanceListProps): JSX.Element {
-  const { classId } = props;
+  const { classId, divisionId } = props;
 
   const [classroomAttendance, setClassroomAttendance] = useState<ClassAttendanceTimeTable>();
   const [error, setError] = useState(false);
@@ -20,9 +21,9 @@ function AttendanceList(props: AttendanceListProps): JSX.Element {
   const [allTimeTableDays, setAllTimeTableDays] = useState<Date[]>();
   const [studentsStatuses, setStudentsStatuses] = useState<{ [x: string]: StudentAttendance[] }>();
 
-  const fetcher = async (id: string): Promise<void> => {
+  const fetcher = async (classId: string, divisionId: string): Promise<void> => {
     try {
-      const _timeTable = await getClassroomTimeTable(id);
+      const _timeTable = await getClassroomTimeTable(classId, divisionId);
 
       setClassroomAttendance(_timeTable);
 
@@ -86,8 +87,10 @@ function AttendanceList(props: AttendanceListProps): JSX.Element {
   };
 
   useEffect(() => {
-    fetcher(classId);
-  }, [classId]);
+    if (divisionId && classId) {
+      fetcher(classId, divisionId);
+    }
+  }, [classId, divisionId]);
 
   if (error) {
     return (<div> Class is not active </div>);
@@ -130,7 +133,9 @@ function AttendanceList(props: AttendanceListProps): JSX.Element {
     if (classroomAttendance && classroomAttendance.students && studentsStatuses) {
       const allAttendance = classroomAttendance.students.reduce<StudentAttendance[]>((rec, st) => rec.concat(studentsStatuses[st.id]), []);
 
-      await markClassAttendance(classId, allAttendance);
+      if (classId && divisionId) {
+        await markClassAttendance(classId, divisionId, allAttendance);
+      }
     }
   };
 

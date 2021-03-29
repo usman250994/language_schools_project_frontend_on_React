@@ -9,6 +9,7 @@ import { PaginatedTable } from '../../../shared/components/tables/paginated-tabl
 import { ToastContext } from '../../../shared/contexts/toast';
 
 import { EditClassroomModal } from './modals/edit-classroom';
+import { ShowClassroomDivisions } from './modals/show-classroom-divisions';
 
 type CreateClassroomProps = {
   schoolId: string;
@@ -23,6 +24,9 @@ export function ListClassroom(props: CreateClassroomProps): JSX.Element {
   const [editClassroom, setEditClassroom] = useState<ClassRoomWithTimeTable>();
 
   const [searchParams, setSearchParams] = useState({ name: '' });
+
+  const [showDivisions, setShowDivisions] = useState(false);
+  const [editClassroomId, setEditClassroomId] = useState<string>();
 
   const fn = useCallback((offset: number, limit: number) => listSchoolsClassrooms(schoolId, offset, limit, searchParams.name), [schoolId, searchParams, refresh]);
 
@@ -52,6 +56,12 @@ export function ListClassroom(props: CreateClassroomProps): JSX.Element {
     return classRoom.section;
   };
 
+  const divisionCell = (data: CellProps<Classroom>): string => {
+    const classRoom = data.row.original;
+
+    return classRoom.division?.name || '';
+  };
+
   const actionCell = (data: CellProps<ClassRoomWithTimeTable>): JSX.Element | string => {
     const classRoom = data.row.original;
 
@@ -59,6 +69,7 @@ export function ListClassroom(props: CreateClassroomProps): JSX.Element {
       <React.Fragment>
         <InfoButton onClick={(): void => setEditClassroom(data.row.original)} title="Edit Class" text="Edit Class" />
         <DeleteButton onClick={(): void => showDeleteModal(classRoom)} />
+        <InfoButton onClick={(): void => { setEditClassroomId(classRoom.id); setShowDivisions(true); }} title="Show Divisions" text="Show Divisions" />
       </React.Fragment>
     );
   };
@@ -69,6 +80,9 @@ export function ListClassroom(props: CreateClassroomProps): JSX.Element {
   }, {
     Header: 'Section',
     Cell: sectionCell,
+  }, {
+    Header: 'Division',
+    Cell: divisionCell,
   }, {
     Header: 'Day',
     Cell: (data: CellProps<ClassRoomWithTimeTable>): string => data.row.original.timeTable?.day || '-',
@@ -116,6 +130,8 @@ export function ListClassroom(props: CreateClassroomProps): JSX.Element {
           onClose={(): void => setEditClassroom(undefined)}
           show
         />}
+      {showDivisions && editClassroomId &&
+        <ShowClassroomDivisions editClassroomId={editClassroomId} onClose={() => setShowDivisions(false)} />}
       <DeleteModal />
     </div>
   );
