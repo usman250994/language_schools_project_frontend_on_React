@@ -115,7 +115,7 @@ export function createStudent(data: Partial<CreateUserRequest> & { classRoomId?:
   });
 }
 
-export function updateStudent(studentId: string, data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string }): Promise<User> {
+export function updateStudent(studentId: string, data: Partial<CreateUserRequest> & { classRoomId?: string; parentId?: string; divisionId?: string }): Promise<User> {
   return httpRequest.request({
     url: `/students/${studentId}`,
     method: 'put',

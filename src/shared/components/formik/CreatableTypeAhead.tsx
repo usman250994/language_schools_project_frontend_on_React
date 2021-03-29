@@ -44,7 +44,7 @@ export function CreatableTypeAheadField({ debounce = 500, fetchOptions, ...props
     getOptionDebounced(query);
   };
 
-  const onChange = useCallback((value: ValueType<CreatableTypeAheadValue>): void => {
+  const onChange = useCallback((value: any): void => {
     helper.setValue(value ? (value as CreatableTypeAheadValue).value : '');
   }, [helper]);
 

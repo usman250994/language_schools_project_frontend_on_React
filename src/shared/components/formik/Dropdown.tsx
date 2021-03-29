@@ -27,7 +27,7 @@ export function Dropdown(props: DropdownProps): JSX.Element {
       {props.label && <Form.Label>{props.label}</Form.Label>}
       <Form.Control
         as="select"
-        value={`Choose ${props.label}`}
+        // value={`Choose ${props.label}`}
         {...field}
         isInvalid={!!(meta.touched && meta.error)}
       >

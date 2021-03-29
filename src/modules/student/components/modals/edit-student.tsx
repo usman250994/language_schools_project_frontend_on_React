@@ -31,6 +31,7 @@ export function EditStudentModal(props: EditStudentModalProps): JSX.Element {
 
   const [classRoomId, setClassRoomId] = useState(studentInfo.classRoom?.id);
   const [parentId, setParentId] = useState(studentInfo.parent?.id);
+  const [divisionId, setDivisionId] = useState<string>();
 
   const initialValues: CreateStudentRequest = {
     firstName: studentInfo.firstName,
@@ -54,6 +55,7 @@ export function EditStudentModal(props: EditStudentModalProps): JSX.Element {
         password: values.password,
         classRoomId: classRoomId,
         parentId: parentId,
+        divisionId,
       });
 
       resetForm();
@@ -80,6 +82,12 @@ export function EditStudentModal(props: EditStudentModalProps): JSX.Element {
     setParentId(parentId);
   };
 
+  const onDivisionSelect = async (divisionId?: string): Promise<void> => {
+    if (!divisionId) return;
+
+    setDivisionId(divisionId);
+  };
+
   return (
     <Modal show={show} size="lg" onHide={(): void => onClose()}>
 
@@ -104,7 +112,7 @@ export function EditStudentModal(props: EditStudentModalProps): JSX.Element {
               <InputField type="email" name="email" label="Email" disabled={isSubmitting} />
               <InputField type="password" name="password" label="New Password" disabled={isSubmitting} />
 
-              <SelectClass defaultSchool={studentInfo.school} defaultClassRoom={studentInfo.classRoom} heading="Enroll in School" onClassSelect={onClassSelect} />
+              <SelectClass defaultSchool={studentInfo.school} defaultClassRoom={studentInfo.classRoom} heading="Enroll in School" onClassSelect={onClassSelect} onDivisionSelect={onDivisionSelect} />
               <SelectParent defaultParent={studentInfo.parent} heading="Select Parents" onParentSelect={onParentSelect} />
 
               <Button type="submit" disabled={isSubmitting}>Edit</Button>
